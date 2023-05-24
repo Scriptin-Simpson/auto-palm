@@ -2,13 +2,12 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-import openai
-from openai import Model
+import google.generativeai as palm
+import pprint
 
-from autogpt.config import Config
-from autogpt.llm.modelsinfo import COSTS
-from autogpt.logs import logger
-from autogpt.singleton import Singleton
+palm.configure(api_key=os.environ['API_KEY'])
+
+model = palm.get_model('chat-bison-001')
 
 
 class ApiManager(metaclass=Singleton):
@@ -57,7 +56,7 @@ class ApiManager(metaclass=Singleton):
                 api_key=cfg.openai_api_key,
             )
         else:
-            response = openai.ChatCompletion.create(
+            response = google.generativeai.chat(
                 model=model,
                 messages=messages,
                 temperature=temperature,
